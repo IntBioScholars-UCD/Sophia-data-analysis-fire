@@ -19,6 +19,7 @@ FP_reproductive <- plants_measured %>% filter(Phenology %in% c("F","P")) %>%
 #count of F and P plants each year
 total_reproductive <- FP_reproductive %>% count(Census_year)
 
+#calculate averages of flowers, fruit, and sum of them
 avg_flower <- FP_reproductive %>% group_by(Census_year) %>% 
               summarise(mean_num_flwr = mean(Num_flowers))
 
@@ -28,6 +29,7 @@ avg_fruit <- FP_reproductive %>% group_by(Census_year) %>%
 avg_flwr_fruit <- FP_reproductive %>% group_by(Census_year) %>%
               summarise(mean_sum_flwr_fruit = mean(sum_flwr_fruit, na.rm = T))
 
+#create a new data frame with means from above
 avg_reproduction <- avg_fruit %>% left_join(avg_flower, by = "Census_year") %>%
                     left_join(avg_flwr_fruit, by = "Census_year") %>%
                     left_join(total_reproductive, by = "Census_year") %>% 
